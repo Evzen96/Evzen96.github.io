@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evzen Kováč — Service & Project Manager</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Scroll progress bar -->
+  <div class="progress-bar"></div>
+
+  <!-- Sticky navigation -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-content">
+      <a href="#top" class="logo">Evzen</a>
+      <ul class="nav-menu">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#experience" class="nav-link">Experience</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+        <span class="icon-sun">☀️</span>
+        <span class="icon-moon">🌙</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Intro splash screen -->
+  <div class="intro-splash" id="introSplash">
+    <div class="intro-content">
+      <h1 class="intro-title">Evzen Kováč</h1>
+      <p class="intro-subtitle">Service & Project Manager · IT Analyst · Delivery Specialist</p>
+    </div>
+  </div>
+
+  <!-- Particle background for hero -->
+  <canvas id="particleCanvas" class="particle-canvas"></canvas>
+
+  <!-- Main header / hero -->
+  <header class="header" id="top">
+    <div class="header-content">
+      <h1 class="fade-in-up">Evzen Kováč</h1>
+      <p class="typewriter fade-in-up" style="animation-delay: 0.2s;">Service & Project Manager · IT Analyst · Delivery Specialist</p>
+      <a href="#about" class="cta-button fade-in-up" style="animation-delay: 0.4s;">Explore My Work</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- About Section -->
+    <section id="about" class="section fade-in-section">
+      <h2>About Me</h2>
+      <div class="about-content">
+        <p>
+          I'm a dedicated Service & Project Manager with expertise in IT service delivery, stakeholder management, and process optimization. 
+          With a background in both technical and business environments, I bridge the gap between technical teams and business objectives to deliver excellence.
+        </p>
+        <p>
+          My focus is on improving operational efficiency, leading cross-functional teams, and ensuring customer satisfaction through proactive communication and strategic planning.
+        </p>
+        <div class="action-buttons">
+          <button class="btn btn-primary" id="downloadPdf">📄 Download CV</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section (Timeline - Interactive) -->
+    <section id="experience" class="section fade-in-section">
+      <h2>Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item" data-expanded="false">
+          <div class="timeline-header" role="button" tabindex="0" aria-expanded="false">
+            <div class="timeline-left">
+              <h3>Senior Service Manager</h3>
+              <p class="company">Global IT Solutions Ltd.</p>
+            </div>
+            <span class="timeline-date">2020 – Present</span>
+            <span class="expand-icon">▼</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Managed service delivery for 50+ enterprise clients with £2M+ annual revenue</li>
+              <li>Implemented ITIL-based processes, reducing incident resolution time by 35%</li>
+              <li>Led team of 12 technical staff and contractors across EMEA region</li>
+              <li>Drove customer satisfaction improvements to 92% NPS score</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-expanded="false">
+          <div class="timeline-header" role="button" tabindex="0" aria-expanded="false">
+            <div class="timeline-left">
+              <h3>Project Manager</h3>
+              <p class="company">Digital Innovation Group</p>
+            </div>
+            <span class="timeline-date">2018 – 2020</span>
+            <span class="expand-icon">▼</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Delivered 15+ software transformation projects on time and within budget</li>
+              <li>Managed budgets up to €1.5M across infrastructure and application modernization</li>
+              <li>Coordinated with C-suite stakeholders and international vendors</li>
+              <li>Introduced Agile/Scrum methodologies, improving team velocity by 28%</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-expanded="false">
+          <div class="timeline-header" role="button" tabindex="0" aria-expanded="false">
+            <div class="timeline-left">
+              <h3>IT Service Analyst</h3>
+              <p class="company">TechCore Services</p>
+            </div>
+            <span class="timeline-date">2016 – 2018</span>
+            <span class="expand-icon">▼</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Supported 200+ end-users across multiple offices in Europe</li>
+              <li>Resolved Tier 1 and 2 IT incidents with 95% first-contact resolution rate</li>
+              <li>Documented processes and created knowledge base reducing support calls by 22%</li>
+              <li>Onboarded 8 new team members and mentored junior analysts</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Skills Section (Animated bars + Radar chart) -->
+    <section id="skills" class="section fade-in-section">
+      <h2>Skills</h2>
+      
+      <div class="skills-container">
+        <div class="skills-bars">
+          <h3>Core Competencies</h3>
+          <div class="skill-group">
+            <div class="skill-item">
+              <label>Project Management</label>
+              <div class="skill-bar">
+                <div class="skill-fill" data-value="92"></div>
+              </div>
+              <span class="skill-percent">92%</span>
+            </div>
+            <div class="skill-item">
+              <label>ITIL & Service Delivery</label>
+              <div class="skill-bar">
+                <div class="skill-fill" data-value="88"></div>
+              </div>
+              <span class="skill-percent">88%</span>
+            </div>
+            <div class="skill-item">
+              <label>Stakeholder Management</label>
+              <div class="skill-bar">
+                <div class="skill-fill" data-value="85"></div>
+              </div>
+              <span class="skill-percent">85%</span>
+            </div>
+            <div class="skill-item">
+              <label>Agile/Scrum</label>
+              <div class="skill-bar">
+                <div class="skill-fill" data-value="80"></div>
+              </div>
+              <span class="skill-percent">80%</span>
+            </div>
+            <div class="skill-item">
+              <label>Team Leadership</label>
+              <div class="skill-bar">
+                <div class="skill-fill" data-value="87"></div>
+              </div>
+              <span class="skill-percent">87%</span>
+            </div>
+            <div class="skill-item">
+              <label>Process Optimization</label>
+              <div class="skill-bar">
+                <div class="skill-fill" data-value="83"></div>
+              </div>
+              <span class="skill-percent">83%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="skills-radar">
+          <h3>Skill Distribution</h3>
+          <svg class="radar-chart" viewBox="0 0 200 200" aria-label="Skills radar chart">
+            <g transform="translate(100, 100)">
+              <!-- Radar background circles -->
+              <circle cx="0" cy="0" r="30" class="radar-circle" />
+              <circle cx="0" cy="0" r="60" class="radar-circle" />
+              <circle cx="0" cy="0" r="90" class="radar-circle" />
+              
+              <!-- Skill axes with labels -->
+              <g class="radar-axes">
+                <line x1="0" y1="0" x2="0" y2="-90" />
+                <line x1="0" y1="0" x2="77.94" y2="-45" />
+                <line x1="0" y1="0" x2="77.94" y2="45" />
+                <line x1="0" y1="0" x2="0" y2="90" />
+                <line x1="0" y1="0" x2="-77.94" y2="45" />
+                <line x1="0" y1="0" x2="-77.94" y2="-45" />
+              </g>
+              
+              <!-- Skill polygon -->
+              <polygon class="radar-polygon" points="0,-73.8 64,-36.9 64,36.9 0,73.8 -64,36.9 -64,-36.9" />
+              
+              <!-- Labels -->
+              <text x="0" y="-100" class="radar-label">PM</text>
+              <text x="86" y="-50" class="radar-label">ITIL</text>
+              <text x="86" y="50" class="radar-label">Agile</text>
+              <text x="0" y="110" class="radar-label">Leadership</text>
+              <text x="-86" y="50" class="radar-label">Process</text>
+              <text x="-86" y="-50" class="radar-label">Stakeholders</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="other-skills">
+        <h3>Technical & Tools</h3>
+        <div class="skills-tags">
+          <span class="skill-tag">Jira</span>
+          <span class="skill-tag">Azure DevOps</span>
+          <span class="skill-tag">Atlassian Suite</span>
+          <span class="skill-tag">Microsoft 365</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Slack</span>
+          <span class="skill-tag">ServiceNow</span>
+          <span class="skill-tag">Risk Management</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section fade-in-section">
+      <h2>Education</h2>
+      
+      <article class="education-item">
+        <h3>Master of Business Administration (MBA)</h3>
+        <p class="company">European Business School</p>
+        <span class="date">2014 – 2016</span>
+        <p>Specialization in Project & Operations Management</p>
+      </article>
+
+      <article class="education-item">
+        <h3>Bachelor of Science in Information Technology</h3>
+        <p class="company">Charles University, Prague</p>
+        <span class="date">2010 – 2014</span>
+        <p>Focus on Systems Administration and Business IT</p>
+      </article>
+
+      <article class="education-item">
+        <h3>ITIL v4 Foundation Certification</h3>
+        <p class="company">BCS — British Computer Society</p>
+        <span class="date">2020</span>
+        <p>Certified in IT Service Management best practices</p>
+      </article>
+
+      <article class="education-item">
+        <h3>Professional Scrum Product Owner (PSPO)</h3>
+        <p class="company">Scrum.org</p>
+        <span class="date">2019</span>
+        <p>Certified in Agile product ownership and delivery</p>
+      </article>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section fade-in-section">
+      <h2>Get In Touch</h2>
+      <div class="contact-content">
+        <p>I'm always interested in hearing about new opportunities and projects. Feel free to reach out!</p>
+        
+        <div class="contact-links">
+          <div class="contact-item">
+            <strong>Email:</strong>
+            <button class="contact-link copy-btn" data-copy="evzen@example.com" data-type="email">
+              📧 evzen@example.com
+            </button>
+          </div>
+          
+          <div class="contact-item">
+            <strong>Phone:</strong>
+            <button class="contact-link copy-btn" data-copy="+420 777 123 456" data-type="phone">
+              📱 +420 777 123 456
+            </button>
+          </div>
+          
+          <div class="contact-item">
+            <strong>LinkedIn:</strong>
+            <a href="https://linkedin.com/in/evzen-kovac" target="_blank" rel="noopener noreferrer" class="contact-link">
+              💼 linkedin.com/in/evzen-kovac
+            </a>
+          </div>
+
+          <div class="contact-item">
+            <strong>GitHub:</strong>
+            <a href="https://github.com/Evzen96" target="_blank" rel="noopener noreferrer" class="contact-link">
+              🔗 github.com/Evzen96
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast notification for copy actions -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Evzen Kováč. Built with vanilla JavaScript &amp; CSS.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
