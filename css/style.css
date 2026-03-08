@@ -689,9 +689,10 @@ section h2 {
 }
 
 .radar-label {
-  font-size: 0.75rem;
-  fill: var(--color-text-secondary);
+  font-size: 1.05rem;
+  fill: var(--color-text);
   text-anchor: middle;
+  font-weight: 600;
 }
 
 /* Other skills (tags) */
