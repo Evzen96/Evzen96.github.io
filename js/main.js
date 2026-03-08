@@ -44,39 +44,30 @@ const elements = {
 
 // ===== INITIALIZATION =====
 function init() {
-  // Only run animations if prefers-reduced-motion is not set
-  if (!CONFIG.REDUCED_MOTION) {
-    initIntroSplash();
-    initParticleBackground();
-  } else {
+  try {
     hideIntroSplash();
+
+    if (!CONFIG.REDUCED_MOTION) {
+      initParticleBackground();
+    }
+
+    initThemeToggle();
+    initNavigation();
+    initTimelineExpandCollapse();
+    initSkillsAnimation();
+    initCopyToClipboard();
+    initScrollProgressBar();
+    initPdfDownload();
+    initSectionScrollAnimation();
+  } catch (error) {
+    console.error('Error during CV initialization:', error);
   }
-  
-  initThemeToggle();
-  initNavigation();
-  initTimelineExpandCollapse();
-  initSkillsAnimation();
-  initCopyToClipboard();
-  initScrollProgressBar();
-  initPdfDownload();
-  
-  // Fade in sections on scroll
-  initSectionScrollAnimation();
 }
 
 // ===== INTRO SPLASH SCREEN =====
-function initIntroSplash() {
-  setTimeout(() => {
-    hideIntroSplash();
-  }, CONFIG.INTRO_DURATION + 1200);
-}
-
 function hideIntroSplash() {
   if (elements.introSplash) {
     elements.introSplash.classList.add('hidden');
-    elements.introSplash.addEventListener('transitionend', () => {
-      elements.introSplash.style.pointerEvents = 'none';
-    });
   }
 }
 
@@ -122,29 +113,23 @@ function animateParticles() {
   const ctx = state.particleCtx;
   const canvas = state.particleCanvas;
 
-  // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Update and draw particles
   state.particles.forEach((particle) => {
     particle.x += particle.vx;
     particle.y += particle.vy;
 
-    // Bounce off edges
     if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
     if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
 
-    // Wrap around
     particle.x = (particle.x + canvas.width) % canvas.width;
     particle.y = (particle.y + canvas.height) % canvas.height;
 
-    // Draw particle
     ctx.fillStyle = 'rgba(0, 229, 255, 0.7)';
     ctx.beginPath();
     ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
     ctx.fill();
 
-    // Draw lines to nearby particles
     state.particles.forEach((other) => {
       const dx = particle.x - other.x;
       const dy = particle.y - other.y;
@@ -166,7 +151,6 @@ function animateParticles() {
 
 // ===== DARK/LIGHT MODE TOGGLE =====
 function initThemeToggle() {
-  // Load saved theme preference
   const savedTheme = localStorage.getItem('theme') || 'dark';
   setTheme(savedTheme);
 
@@ -188,12 +172,10 @@ function setTheme(theme) {
 
 // ===== STICKY NAVIGATION WITH ACTIVE TRACKING =====
 function initNavigation() {
-  // Show navbar after intro splash
   setTimeout(() => {
     elements.navbar.classList.add('active');
-  }, CONFIG.INTRO_DURATION + 500);
+  }, 500);
 
-  // Track active section with Intersection Observer
   const observerOptions = {
     root: null,
     rootMargin: '-50% 0px -50% 0px',
@@ -212,13 +194,12 @@ function initNavigation() {
     observer.observe(section);
   });
 
-  // Smooth scroll on nav link click
   elements.navLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const targetId = link.getAttribute('href').substring(1);
       const targetElement = document.getElementById(targetId);
-      
+
       if (targetElement) {
         targetElement.scrollIntoView({ behavior: 'smooth' });
         updateActiveNavLink(targetId);
@@ -241,12 +222,11 @@ function updateActiveNavLink(sectionId) {
 function initTimelineExpandCollapse() {
   elements.timelineItems.forEach((item) => {
     const header = item.querySelector('.timeline-header');
-    
+
     header.addEventListener('click', () => {
       toggleTimelineItem(item);
     });
 
-    // Keyboard accessibility
     header.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -258,15 +238,13 @@ function initTimelineExpandCollapse() {
 
 function toggleTimelineItem(item) {
   const isExpanded = item.getAttribute('data-expanded') === 'true';
-  
-  // Collapse other items
+
   elements.timelineItems.forEach((other) => {
     if (other !== item) {
       other.setAttribute('data-expanded', 'false');
     }
   });
 
-  // Toggle current item
   item.setAttribute('data-expanded', !isExpanded);
 }
 
@@ -288,7 +266,6 @@ function initSkillsAnimation() {
     });
   }, options);
 
-  // Observe skills section
   const skillsSection = document.getElementById('skills');
   if (skillsSection) {
     observer.observe(skillsSection);
@@ -298,21 +275,16 @@ function initSkillsAnimation() {
 function animateSkillBars() {
   elements.skillFills.forEach((fill) => {
     const value = fill.getAttribute('data-value');
-    
-    if (CONFIG.REDUCED_MOTION) {
-      fill.style.width = `${value}%`;
-    } else {
-      fill.style.width = `${value}%`;
-    }
+    fill.style.width = `${value}%`;
   });
 }
 
 function animateRadarChart() {
   if (state.radarAnimated || !elements.radarChart) return;
-  
+
   state.radarAnimated = true;
   const polygon = elements.radarChart.querySelector('.radar-polygon');
-  
+
   if (polygon && !CONFIG.REDUCED_MOTION) {
     polygon.style.animation = 'radarPop 0.6s ease-out forwards';
   } else if (polygon) {
@@ -337,7 +309,7 @@ function initTypewriterEffect() {
 
   function typewrite() {
     const currentRole = roles[roleIndex];
-    
+
     if (isDeleting) {
       charIndex--;
     } else {
@@ -373,7 +345,7 @@ function initCopyToClipboard() {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const textToCopy = btn.getAttribute('data-copy');
-      
+
       navigator.clipboard.writeText(textToCopy).then(() => {
         showToast(`Copied: ${textToCopy}`);
       }).catch(() => {
@@ -415,15 +387,11 @@ function initSectionScrollAnimation() {
   };
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
         entry.target.classList.add('animated');
-        
-        if (!CONFIG.REDUCED_MOTION) {
-          entry.target.style.animation = `fadeInUp 0.8s ease-out ${index * 0.1}s forwards`;
-        } else {
-          entry.target.style.opacity = '1';
-        }
+        entry.target.style.opacity = '1';
+        entry.target.style.transition = 'opacity 0.6s ease-out';
       }
     });
   }, options);
@@ -444,7 +412,6 @@ function initPdfDownload() {
 
 // ===== KEYBOARD ACCESSIBILITY =====
 function initAccessibility() {
-  // Make timeline headers keyboard accessible
   elements.timelineItems.forEach((item) => {
     const header = item.querySelector('.timeline-header');
     header.setAttribute('role', 'button');
