@@ -11,6 +11,9 @@
 
   <div class="progress-bar"></div>
 
+  <!-- Circuit Board Background Canvas -->
+  <canvas id="circuitCanvas" class="circuit-canvas"></canvas>
+
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar-content">
       <a href="#top" class="logo">Lukáš Gajdoš</a>
@@ -81,7 +84,7 @@
           </div>
           <div class="timeline-content">
             <ul>
-              <li>Owns end-to-end delivery lifecycle for a web SaaS SIM card management platform serving leading European telco operators — from feature intake to production deployment</li>
+              <li>Owns end-to-end delivery lifecycle for a SaaS SIM card management platform serving leading European telco operators — from feature intake to production deployment</li>
               <li>Translates complex international business requirements into detailed technical specifications, UML process diagrams, and actionable user stories for development teams</li>
               <li>Leads release planning and cross-team coordination in an Agile/Scrum environment, ensuring on-time, quality delivery of system integrations and new features</li>
               <li>Executes comprehensive QA coverage: E2E, regression, system, UAT, API (Postman/SoapUI) and GUI testing across each release cycle</li>
@@ -90,7 +93,7 @@
             </ul>
           </div>
         </div>
-        
+
         <div class="timeline-item" data-expanded="false">
           <div class="timeline-header" role="button" tabindex="0" aria-expanded="false">
             <div class="timeline-left">
@@ -112,8 +115,24 @@
         <div class="timeline-item" data-expanded="false">
           <div class="timeline-header" role="button" tabindex="0" aria-expanded="false">
             <div class="timeline-left">
+              <h3>IT Recruitment Consultant</h3>
+              <p class="company">Devire · Brno</p>
+            </div>
+            <span class="timeline-date">Mar 2022 – Sep 2022</span>
+            <span class="expand-icon">▼</span>
+          </div>
+          <div class="timeline-content">
+            <ul>
+              <li>Specialised IT recruitment with a focus on engineering and technology roles across the Czech market</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-expanded="false">
+          <div class="timeline-header" role="button" tabindex="0" aria-expanded="false">
+            <div class="timeline-left">
               <h3>Technical Support Specialist — Level 2</h3>
-              <p class="company">Miracle Network / CBL · Brno · Telco</p>
+              <p class="company">Miracle Network / CBL · Brno</p>
             </div>
             <span class="timeline-date">Feb 2018 – Oct 2022</span>
             <span class="expand-icon">▼</span>
@@ -124,22 +143,6 @@
               <li>Maintained and monitored IoT/M2M connectivity and hardware (Mikrotik, Racom, Orcave, Summit) with daily use of Grafana, SNMP and SFTP tools</li>
               <li>Operated in an on-call 24/7 model, managing SLA obligations and inter-provider telco communication at a senior technical level</li>
               <li>Administered Windows environments and used PowerShell scripting to automate routine tasks; worked hands-on with TCP/IP, DNS, DHCP and SNMP protocols</li>
-            </ul>
-          </div>
-        </div>
-        
-        <div class="timeline-item" data-expanded="false">
-          <div class="timeline-header" role="button" tabindex="0" aria-expanded="false">
-            <div class="timeline-left">
-              <h3>IT Recruitment Consultant</h3>
-              <p class="company">Devire · Brno</p>
-            </div>
-            <span class="timeline-date">Mar 2022 – Sep 2022</span>
-            <span class="expand-icon">▼</span>
-          </div>
-          <div class="timeline-content">
-            <ul>
-              <li>Specialised IT recruitment with a focus on engineering and technology roles across the Czech market</li>
             </ul>
           </div>
         </div>
@@ -221,11 +224,11 @@
               </g>
               <polygon class="radar-polygon" points="0,-81 70,-40.5 58.5,33.75 0,58.5 -58.5,33.75 -70,-40.5" />
               <text x="0" y="-100" class="radar-label">Delivery</text>
-              <text x="86" y="-50" class="radar-label">QA</text>
-              <text x="86" y="50" class="radar-label">Agile</text>
-              <text x="0" y="110" class="radar-label">SQL</text>
-              <text x="-86" y="50" class="radar-label">Network</text>
-              <text x="-86" y="-50" class="radar-label">Analysis</text>
+              <text x="90" y="-50" class="radar-label">QA</text>
+              <text x="90" y="60" class="radar-label">Agile</text>
+              <text x="0" y="115" class="radar-label">SQL</text>
+              <text x="-90" y="60" class="radar-label">Network</text>
+              <text x="-90" y="-50" class="radar-label">Analysis</text>
             </g>
           </svg>
         </div>
@@ -298,7 +301,7 @@
         <div class="contact-links">
           <div class="contact-item">
             <strong>Email:</strong>
-            <button class="contact-link copy-btn" data-copy="[lukas.gajdos996@gmail.com]">📧 lukas.gajdos996@gmail.com</button>
+            <button class="contact-link copy-btn" data-copy="lukas.gajdos996@gmail.com">📧 lukas.gajdos996@gmail.com</button>
           </div>
           <div class="contact-item">
             <strong>Phone:</strong>
@@ -321,10 +324,226 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <footer>
-    <p>&copy; 2026 Lukáš Gajdoš. JavaScript &amp; CSS.</p>
+    <p>&copy; 2026 Lukáš Gajdoš. Built with vanilla JavaScript &amp; CSS.</p>
   </footer>
 
   <script src="js/main.js"></script>
+
+  <script>
+  // ===== CIRCUIT BOARD BACKGROUND =====
+  (function() {
+    const canvas = document.getElementById('circuitCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    let W, H, nodes, pulses;
+
+    const GRID = 60;         // grid cell size
+    const NODE_CHANCE = 0.55; // probability a grid point becomes a node
+    const PULSE_INTERVAL = 600; // ms between new pulses
+    const PULSE_SPEED = 1.8;
+    const BASE_ALPHA = 0.13;  // background circuit opacity
+    const PULSE_ALPHA = 0.55; // pulse glow opacity
+
+    function isDark() {
+      return !document.documentElement.getAttribute('data-theme');
+    }
+
+    function accentColor(alpha) {
+      if (isDark()) return `rgba(0,229,255,${alpha})`;
+      return `rgba(9,105,218,${alpha})`;
+    }
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+      buildCircuit();
+    }
+
+    // Build a random circuit grid
+    function buildCircuit() {
+      nodes = [];
+      const cols = Math.ceil(W / GRID) + 1;
+      const rows = Math.ceil(H / GRID) + 1;
+
+      // Create node grid
+      const grid = [];
+      for (let r = 0; r < rows; r++) {
+        grid[r] = [];
+        for (let c = 0; c < cols; c++) {
+          const active = Math.random() < NODE_CHANCE;
+          grid[r][c] = {
+            x: c * GRID + (Math.random() * 10 - 5),
+            y: r * GRID + (Math.random() * 10 - 5),
+            active,
+            dot: active && Math.random() < 0.35, // some nodes get a dot
+            edges: [] // connected neighbour indices
+          };
+        }
+      }
+
+      // Connect nodes with horizontal and vertical edges (circuit-style: only orthogonal)
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const n = grid[r][c];
+          if (!n.active) continue;
+          // right
+          if (c + 1 < cols && grid[r][c+1].active && Math.random() < 0.65) {
+            n.edges.push(grid[r][c+1]);
+          }
+          // down
+          if (r + 1 < rows && grid[r+1][c].active && Math.random() < 0.65) {
+            n.edges.push(grid[r+1][c]);
+          }
+        }
+      }
+
+      // Flatten to array for rendering
+      nodes = [];
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (grid[r][c].active) nodes.push(grid[r][c]);
+        }
+      }
+
+      // Build pulse paths
+      pulses = [];
+    }
+
+    // A pulse travels along a path of nodes
+    function spawnPulse() {
+      if (nodes.length === 0) return;
+      // Pick random starting node that has edges
+      const starters = nodes.filter(n => n.edges.length > 0);
+      if (!starters.length) return;
+      const start = starters[Math.floor(Math.random() * starters.length)];
+
+      // Walk a path of 3–7 hops
+      const path = [start];
+      let current = start;
+      const hops = 3 + Math.floor(Math.random() * 5);
+      for (let i = 0; i < hops; i++) {
+        if (!current.edges.length) break;
+        const next = current.edges[Math.floor(Math.random() * current.edges.length)];
+        path.push(next);
+        current = next;
+      }
+      if (path.length < 2) return;
+
+      pulses.push({ path, progress: 0, speed: PULSE_SPEED * (0.7 + Math.random() * 0.6) });
+    }
+
+    let lastPulse = 0;
+
+    function drawStatic() {
+      // Draw all circuit lines
+      ctx.lineWidth = 0.8;
+      nodes.forEach(node => {
+        node.edges.forEach(target => {
+          ctx.beginPath();
+          ctx.strokeStyle = accentColor(BASE_ALPHA);
+          // Circuit-style: draw L-shaped path (go horizontal first, then vertical)
+          const midX = target.x;
+          const midY = node.y;
+          ctx.moveTo(node.x, node.y);
+          ctx.lineTo(midX, midY);
+          ctx.lineTo(target.x, target.y);
+          ctx.stroke();
+        });
+
+        // Draw node dots
+        if (node.dot) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = accentColor(BASE_ALPHA * 2);
+          ctx.fill();
+        }
+      });
+    }
+
+    function drawPulses(now) {
+      pulses.forEach(pulse => {
+        // Total path length in segments
+        const totalSegments = pulse.path.length - 1;
+        const totalProgress = pulse.progress; // in "segment units"
+        const segIdx = Math.floor(totalProgress);
+        const segT = totalProgress - segIdx;
+
+        if (segIdx >= totalSegments) return;
+
+        const from = pulse.path[segIdx];
+        const to = pulse.path[segIdx + 1];
+
+        // L-shaped midpoint
+        const midX = to.x;
+        const midY = from.y;
+
+        // Compute position along the L: first leg = from→mid, second = mid→to
+        const leg1Len = Math.abs(midX - from.x);
+        const leg2Len = Math.abs(to.y - midY);
+        const totalLen = leg1Len + leg2Len || 1;
+
+        let px, py;
+        const tLen = segT * totalLen;
+        if (tLen <= leg1Len) {
+          px = from.x + (midX - from.x) * (tLen / (leg1Len || 1));
+          py = from.y;
+        } else {
+          px = midX;
+          py = midY + (to.y - midY) * ((tLen - leg1Len) / (leg2Len || 1));
+        }
+
+        // Draw glowing dot
+        const grad = ctx.createRadialGradient(px, py, 0, px, py, 8);
+        grad.addColorStop(0, accentColor(PULSE_ALPHA));
+        grad.addColorStop(1, accentColor(0));
+        ctx.beginPath();
+        ctx.arc(px, py, 8, 0, Math.PI * 2);
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Bright center
+        ctx.beginPath();
+        ctx.arc(px, py, 2, 0, Math.PI * 2);
+        ctx.fillStyle = accentColor(0.9);
+        ctx.fill();
+      });
+    }
+
+    function animate(now) {
+      ctx.clearRect(0, 0, W, H);
+      drawStatic();
+
+      if (!REDUCED) {
+        // Spawn pulses
+        if (now - lastPulse > PULSE_INTERVAL) {
+          spawnPulse();
+          lastPulse = now;
+        }
+
+        // Update & draw pulses
+        pulses = pulses.filter(p => {
+          p.progress += p.speed * 0.016; // ~60fps normalised
+          return p.progress < p.path.length - 1;
+        });
+
+        drawPulses(now);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resize);
+    // Re-build on theme change
+    const observer = new MutationObserver(() => {});
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    resize();
+    requestAnimationFrame(animate);
+  })();
+  </script>
+
 </body>
 </html>
-
