@@ -309,7 +309,7 @@ function initTypewriterEffect() {
 
   function typewrite() {
     const currentRole = roles[roleIndex];
-initAccessibility
+
     if (isDeleting) {
       charIndex--;
     } else {
