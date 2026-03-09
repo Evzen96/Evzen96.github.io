@@ -309,7 +309,7 @@ function initTypewriterEffect() {
 
   function typewrite() {
     const currentRole = roles[roleIndex];
-
+initAccessibility
     if (isDeleting) {
       charIndex--;
     } else {
@@ -405,7 +405,12 @@ function initSectionScrollAnimation() {
 function initPdfDownload() {
   if (elements.downloadPdfBtn) {
     elements.downloadPdfBtn.addEventListener('click', () => {
-      window.print();
+      const link = document.createElement('a');
+      link.href = 'LGajdos_CV_2026.pdf';
+      link.download = 'LGajdos_CV_2026.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     });
   }
 }
