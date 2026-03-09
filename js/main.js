@@ -406,8 +406,8 @@ function initPdfDownload() {
   if (elements.downloadPdfBtn) {
     elements.downloadPdfBtn.addEventListener('click', () => {
       const link = document.createElement('a');
-      link.href = 'LGajdos_CV_2026.pdf';
-      link.download = 'LGajdos_CV_2026.pdf';
+      link.href = 'LGajdos_CV_2026_1.pdf';
+      link.download = 'LGajdos_CV_2026_1.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
